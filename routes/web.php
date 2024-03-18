@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Listings;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,15 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $listings = Listings::all();
-    return view('listings', [
-        'listings' => $listings
-    ]);
+    return view('welcome');
 });
 
-Route::get('/listings/{id}', function ($id) {
-    $listing = Listings::find($id);
-    return view('listing', [
-        'listing' => $listing
-    ]);
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

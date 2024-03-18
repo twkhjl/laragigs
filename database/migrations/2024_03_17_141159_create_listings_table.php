@@ -16,7 +16,15 @@ class CreateListingsTable extends Migration
         Schema::create('listings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->string('title')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('tags')->nullable();
+            $table->string('company')->nullable();
+            $table->string('loaction')->nullable();
+            $table->string('email')->nullable();
             $table->text('description')->nullable();
         });
     }
