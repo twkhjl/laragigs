@@ -15,7 +15,10 @@ class Listing extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'user_id',
+        'title',
+        'email',
+        'location',
         'description',
     ];
 }
