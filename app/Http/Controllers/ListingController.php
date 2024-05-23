@@ -6,7 +6,6 @@ use App\Helpers\ImgurHelper;
 use App\Models\Img;
 use Illuminate\Http\Request;
 use \App\Models\Listing;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
@@ -61,22 +60,34 @@ class ListingController extends Controller
             'description' => 'required',
             'logo' => 'mimes:jpg,jpeg,png',
         ]);
+        $formFields['user_id'] = auth()->id();
+
+        $newListing = Listing::create($formFields);
 
         if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+
+            // 上傳新圖片
+            $imgurClientId = env('IMGUR_CLIENT_ID');
+            $uploadResult = ImgurHelper::uploadToImgur($request->file('logo'), $imgurClientId);
+            if (
+                $uploadResult
+                && $uploadResult['data']
+                && $uploadResult['data']['link']
+                && $uploadResult['data']['deletehash']
+            ) {
+                Img::create([
+                    'img_url' => $uploadResult['data']['link'],
+                    'delete_hash' => $uploadResult['data']['deletehash'],
+                    'table_name' => 'listings',
+                    'column_name' => 'logo',
+                    'table_id' => $newListing->id,
+                ]);
+            }
+
         }
-
-        $formFields['user_id'] = auth()->id();
-        Listing::create($formFields);
-
-        $listings = Listing::all()->sortByDesc("id");
 
         return redirect('dashboard')->with('success', '新增成功');
 
-
-        // return view("listings.index", [
-        //     "listings" => $listings,
-        // ]);
     }
 
     /**
@@ -194,10 +205,14 @@ class ListingController extends Controller
             abort(403, 'Unauthorized Action');
         }
 
-        if ($listing->logo && Storage::disk('public')->exists($listing->logo)) {
-            Storage::disk('public')->delete($listing->logo);
+        // 刪除舊圖片
+        $imgs = Img::where('table_name', 'listings')->where('table_id', $listing->id)->get();
+        $deleteHashes = $imgs->pluck('delete_hash')->toArray();
+        $imgurClientId = env('IMGUR_CLIENT_ID');
+        foreach ($deleteHashes as $key => $deleteHash) {
+            ImgurHelper::curl_remove_img($deleteHash, $imgurClientId);
         }
-        $listing->delete();
+        $imgs->each->delete();
 
         return back()->with('success', '刪除成功');
     }

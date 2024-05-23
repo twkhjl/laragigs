@@ -70,6 +70,9 @@ final class ImgurHelper
   public final static function curl_remove_img($imageDeleteHash, $client_id)
   {
 
+    if(!$imageDeleteHash) return;
+    if(!$client_id) return;
+
 
     $url = "https://api.imgur.com/3/image/{$imageDeleteHash}";
 
