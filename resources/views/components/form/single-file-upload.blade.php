@@ -1,6 +1,7 @@
 @php
 $oldValue = $oldValue ?? '';
-$srcImg = $oldValue ? asset('storage/' . $oldValue) : '';
+$srcImg = $oldValue ? $oldValue : '';
+// $srcImg = $oldValue ? asset('storage/' . $oldValue) : '';
 @endphp
 
 <div class="relative z-0 w-full mb-5 group">

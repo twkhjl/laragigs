@@ -40,7 +40,7 @@ Route::delete(
 )->middleware(['auth'])->name('listings.destroy');
 
 Route::get(
-    '/listings/{id}',
+    '/listings/{listing}',
     [ListingController::class, 'show']
 )->name('listings.show');
 

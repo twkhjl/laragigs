@@ -47,7 +47,6 @@
       <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
     @enderror
 
-
     @include('components.form.single-file-upload', [
         'inputName' => 'logo',
         'oldValue' => $listing->logo,
@@ -55,8 +54,6 @@
     @error('logo')
       <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
     @enderror
-
-
 
 
 

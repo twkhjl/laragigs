@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImgurHelper;
+use App\Models\Img;
 use Illuminate\Http\Request;
 use \App\Models\Listing;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class ListingController extends Controller
 {
@@ -16,7 +19,18 @@ class ListingController extends Controller
      */
     public function index()
     {
-        $listings = Listing::all()->sortByDesc("id");
+        $listings = DB::table('listings as L')
+            ->select('L.id', 'L.user_id', 'L.title', 'L.tags', 'L.company', 'L.email', 'L.description', 'imgs.img_url AS logo')
+            ->leftJoin('imgs', 'L.id', '=', 'imgs.table_id')
+            ->where(function ($query) {
+                $query->where('imgs.table_name', 'listings')
+                    ->orWhereNull('imgs.table_name');
+            })
+            ->orderBy('L.id')
+            ->get();
+
+
+        // $listings = Listing::all()->sortByDesc("id");
         return view('listings.index', [
             "listings" => $listings,
         ]);
@@ -71,9 +85,18 @@ class ListingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Listing $listing)
     {
-        $listing = Listing::find($id);
+        $img = Img::where('table_name', 'listings')
+            ->where('table_id', $listing->id)
+            ->where('table_name', 'listings')
+            ->latest('created_at')
+            ->first();
+
+
+        $imgUrl = $img->img_url ?? '';
+        $listing->logo = $imgUrl ?? '';
+
         return view('listings.show', [
             "listing" => $listing,
         ]);
@@ -87,6 +110,16 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing)
     {
+        $img = Img::where('table_name', 'listings')
+            ->where('table_id', $listing->id)
+            ->where('table_name', 'listings')
+            ->latest('created_at')
+            ->first();
+
+        $imgUrl = $img->img_url ?? '';
+        $listing->logo = $imgUrl ?? '';
+
+
         return view('listings.edit', ['listing' => $listing]);
     }
 
@@ -114,13 +147,34 @@ class ListingController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            
-            // 刪除舊圖片
-            $oldFilePath = $listing->logo;
-            Storage::delete(storage_path('app/public/').$oldFilePath);
 
-            // 儲存新圖片
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+            // 刪除舊圖片
+            $imgs = Img::where('table_name', 'listings')->where('table_id', $listing->id)->get();
+            $deleteHashes = $imgs->pluck('delete_hash')->toArray();
+            $imgurClientId = env('IMGUR_CLIENT_ID');
+            foreach ($deleteHashes as $key => $deleteHash) {
+                ImgurHelper::curl_remove_img($deleteHash, $imgurClientId);
+            }
+            $imgs->each->delete();
+
+
+            // 上傳新圖片
+            $imgurClientId = env('IMGUR_CLIENT_ID');
+            $uploadResult = ImgurHelper::uploadToImgur($request->file('logo'), $imgurClientId);
+            if (
+                $uploadResult
+                && $uploadResult['data']
+                && $uploadResult['data']['link']
+                && $uploadResult['data']['deletehash']
+            ) {
+                Img::create([
+                    'img_url' => $uploadResult['data']['link'],
+                    'delete_hash' => $uploadResult['data']['deletehash'],
+                    'table_name' => 'listings',
+                    'column_name' => 'logo',
+                    'table_id' => $listing->id,
+                ]);
+            }
         }
 
         $listing->update($formFields);
