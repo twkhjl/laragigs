@@ -38,7 +38,20 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        Listing::create($request->all());
+        $formFields = $request->validate([
+            'title' => 'required',
+            'company' => ['required', 'unique:listings'],
+            'email' => ['required','email'],
+            'description' => 'required',
+            'logo' =>'mimes:jpg,jpeg,png',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        $formFields['user_id'] = auth()->id();
+        Listing::create($formFields);
 
         $listings = Listing::all();
 

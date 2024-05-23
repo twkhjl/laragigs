@@ -18,6 +18,8 @@ class Listing extends Model
         'user_id',
         'title',
         'email',
+        'logo',
+        'company',
         'location',
         'description',
     ];
