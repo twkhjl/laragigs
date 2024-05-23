@@ -9,8 +9,10 @@
     <div class="py-16">
       <div class="mx-auto px-6 max-w-6xl text-gray-500">
 
-        <button type="button" onclick="location.href='/listings/create'"
-          class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
+        @auth
+          <button type="button" onclick="location.href='/listings/create'"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
+        @endauth
 
         <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           @foreach ($listings as $key => $value)
@@ -37,17 +39,19 @@
                   </svg>
                 </a>
 
-                <form method="POST" action="/listings/{{ $value['id'] }}">
-                  {{ csrf_field() }}
-                  {{ method_field('DELETE') }}
+                @auth
+                  <form method="POST" action="/listings/{{ $value['id'] }}">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
 
-                  <div class="flex p-2">
-                    <button type="submit"
-                      class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">移除</button>
+                    <div class="flex p-2">
+                      <button type="submit"
+                        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">移除</button>
 
-                    {{-- <input type="submit" class="btn btn-danger delete-user" value="Delete user"> --}}
-                  </div>
-                </form>
+                      {{-- <input type="submit" class="btn btn-danger delete-user" value="Delete user"> --}}
+                    </div>
+                  </form>
+                @endauth
 
               </div>
             </div>
