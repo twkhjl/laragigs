@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Listing;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ListingController extends Controller
 {
@@ -40,10 +42,10 @@ class ListingController extends Controller
     {
         $formFields = $request->validate([
             'title' => 'required',
-            'company' => ['required', 'unique:listings'],
-            'email' => ['required','email'],
+            'company' => ['required', Rule::unique('listings', 'company')],
+            'email' => ['required', 'email'],
             'description' => 'required',
-            'logo' =>'mimes:jpg,jpeg,png',
+            'logo' => 'mimes:jpg,jpeg,png',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -53,7 +55,7 @@ class ListingController extends Controller
         $formFields['user_id'] = auth()->id();
         Listing::create($formFields);
 
-        $listings = Listing::all();
+        $listings = Listing::all()->sortByDesc("id");
 
         return view("listings.index", [
             "listings" => $listings,
@@ -80,9 +82,9 @@ class ListingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Listing $listing)
     {
-        //
+        return view('listings.edit', ['listing' => $listing]);
     }
 
     /**
@@ -92,9 +94,35 @@ class ListingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Listing $listing)
     {
-        //
+        // Make sure logged in user is owner
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
+
+        $formFields = $request->validate([
+            'title' => 'required',
+            'company' => ['required', 'unique:listings,company,' . $listing->id],
+            'email' => ['required', 'email'],
+            'description' => 'required',
+            'logo' => 'mimes:jpg,jpeg,png',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            
+            // 刪除舊圖片
+            $oldFilePath = $listing->logo;
+            Storage::delete(storage_path('app/public/').$oldFilePath);
+
+            // 儲存新圖片
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        $listing->update($formFields);
+
+        return back()->with('danger', 'Listing updated successfully!');
     }
 
     /**
@@ -103,14 +131,24 @@ class ListingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Listing $listing)
     {
-        Listing::destroy($id);
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
 
-        $listings = Listing::all();
+        if ($listing->logo && Storage::disk('public')->exists($listing->logo)) {
+            Storage::disk('public')->delete($listing->logo);
+        }
+        $listing->delete();
 
-        return view("listings.index", [
-            "listings" => $listings,
-        ]);
+        return redirect(url()->previous());
+    }
+
+    // Manage Listings
+    public function manage()
+    {
+
+        return view('dashboard', ['listings' => auth()->user()->listings()->get()]);
     }
 }

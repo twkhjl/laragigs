@@ -1,13 +1,12 @@
 @php
-    $oldFile = session('old_file') ?? '';
-
+$oldValue = $oldValue ?? '';
+$srcImg = $oldValue ? asset('storage/' . $oldValue) : '';
 @endphp
 
 <div class="relative z-0 w-full mb-5 group">
 
   <label class="block">
     <input name="{{ $inputName }}" type="file" onchange="loadFile(event)"
-    value="{{$oldFile}}"
       class="block w-full text-sm text-gray-500
   file:me-4 file:py-2 file:px-4
   file:rounded-lg file:border-1
@@ -18,7 +17,9 @@
 ">
   </label>
   <div class="shrink-0">
-    <img id='preview_img' class="mt-2 object-cover" alt="" />
+    <img id='preview_img' class="mt-2 object-cover" 
+    src="{{$srcImg}}"
+    alt="" />
   </div>
   <script>
     const loadFile = function(event) {

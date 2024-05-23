@@ -24,27 +24,34 @@ Route::get(
 Route::get(
     '/listings/create',
     [ListingController::class, 'create']
-)->name('listings.create');
+)->middleware(['auth'])->name('listings.create');
 
 Route::post(
     '/listings/store',
     [ListingController::class, 'store']
-)->name('listings.store');
+)->middleware(['auth'])->name('listings.store');
+
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth')->name('listings.edit');
+Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth')->name('listings.update');
 
 Route::delete(
-    '/listings/{id}',
+    '/listings/{listing}',
     [ListingController::class, 'destroy']
-)->name('listings.destroy');
+)->middleware(['auth'])->name('listings.destroy');
 
 Route::get(
     '/listings/{id}',
     [ListingController::class, 'show']
 )->name('listings.show');
 
+Route::get(
+    '/dashboard',
+    [ListingController::class, 'manage']
+)->middleware(['auth'])->name('dashboard');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
