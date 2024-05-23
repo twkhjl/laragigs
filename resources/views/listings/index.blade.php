@@ -9,10 +9,6 @@
     <div class="py-16">
       <div class="mx-auto px-6 max-w-6xl text-gray-500">
 
-        @auth
-          <button type="button" onclick="location.href='/listings/create'"
-            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
-        @endauth
 
         <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           @foreach ($listings as $key => $value)

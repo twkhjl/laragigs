@@ -1,3 +1,9 @@
+
+@auth
+<button type="button" onclick="location.href='/listings/create'"
+  class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
+@endauth
+
 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
@@ -36,19 +42,43 @@
         </td>
         <td class="px-6 py-4">
           <div class="flex gap-4 align-middle justify-center">
-            <a href="/listings/{{$value->id}}/edit"
+            <a href="/listings/{{ $value->id }}/edit"
               class="block focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"><i
                 class="fa-solid fa-pen"></i></a>
 
-            <form method="POST" action="/listings/{{$value->id}}">
+            <form method="POST" id="form{{ $value->id }}" action="/listings/{{ $value->id }}">
               {{ csrf_field() }}
               {{ method_field('DELETE') }}
-              <input type="text" hidden name="srcPage" value="manage">
 
-              <button type="submit"
+              @php
+                $modalID = "deleteModal{$value->id}";
+                $confirmTriggerFn = "triggerDelBtn{$value->id}";
+              @endphp
+
+              <button data-modal-target="{{ $modalID }}" data-modal-toggle="{{ $modalID }}"
+                onclick="onDelBtnClick(event)"
                 class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"><i
                   class="fa-solid fa-trash"></i></button>
+
+              <button type="submit" id="delBtn{{ $value->id }}">實際刪除鈕</button>
+              <script>
+                function onDelBtnClick(e){
+                  return e.preventDefault();
+                }
+                function triggerDelBtn{{ $value->id }}() {
+                  document.querySelector("#form{{ $value->id }}").submit();
+                }
+              </script>
             </form>
+
+            @include('components.modal-confirm-del', [
+                'modalID' => $modalID,
+                'confirmTriggerFn' => $confirmTriggerFn,
+                'confirmDelMessage' => '是否確定刪除?',
+                'btnConfirmText' => '確定',
+                'btnCancelText' => '取消',
+            ])
+
           </div>
         </td>
       </tr>

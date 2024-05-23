@@ -57,9 +57,12 @@ class ListingController extends Controller
 
         $listings = Listing::all()->sortByDesc("id");
 
-        return view("listings.index", [
-            "listings" => $listings,
-        ]);
+        return redirect('dashboard')->with('success', '新增成功');
+
+
+        // return view("listings.index", [
+        //     "listings" => $listings,
+        // ]);
     }
 
     /**
@@ -122,7 +125,7 @@ class ListingController extends Controller
 
         $listing->update($formFields);
 
-        return back()->with('danger', 'Listing updated successfully!');
+        return back()->with('success', '更新成功');
     }
 
     /**
@@ -142,7 +145,7 @@ class ListingController extends Controller
         }
         $listing->delete();
 
-        return redirect(url()->previous());
+        return back()->with('success', '刪除成功');
     }
 
     // Manage Listings
