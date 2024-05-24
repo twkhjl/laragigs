@@ -27,7 +27,7 @@
 </head>
 
 <body class="font-sans antialiased">
-  <div class="min-h-screen bg-gray-100">
+  <div class="min-h-screen min-w-screen bg-gray-100">
     @include('layouts.navigation')
 
 
@@ -39,6 +39,8 @@
 
   @include('components.flash-success')
   @include('components.flash-danger')
+
+  @include('components.footer')
 
 </body>
 
