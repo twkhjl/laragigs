@@ -217,6 +217,8 @@ class ListingController extends Controller
 		}
 		$imgs->each->delete();
 
+		$listing->delete();
+
 		return back()->with('success', '刪除成功');
 	}
 
@@ -225,9 +227,10 @@ class ListingController extends Controller
 	{
 		$listings = Listing::getListing([
 			'user_id' => auth()->user()->id,
-			'perPage' => 5
+			'perPage' => 5,
+			'search' => request('search') ?? '',
 		]);
-		
+
 		return view('dashboard', [
 			'listings' => $listings,
 			'page' => request()->input('page') ?? '1',

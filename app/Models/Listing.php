@@ -59,7 +59,10 @@ class Listing extends Model
             $query->where(function ($q) use ($search) {
                 $q->where('L.title', 'like', '%' . $search . '%')
                     ->orWhere('L.description', 'like', '%' . $search . '%')
-                    ->orWhere('L.tags', 'like', '%' . $search . '%');
+                    ->orWhere('L.tags', 'like', '%' . $search . '%')
+                    ->orWhere('L.email', 'like', '%' . $search . '%')
+                    ->orWhere('L.company', 'like', '%' . $search . '%')
+                    ;
             });
         }
 
