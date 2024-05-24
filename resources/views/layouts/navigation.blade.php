@@ -1,8 +1,8 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed w-full z-50">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">找工作</span>
     </a>
     @guest
       <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-4">
@@ -30,7 +30,7 @@
           <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
               <a href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">儀表板</a>
             </li>
 
             <li>
@@ -39,8 +39,7 @@
                 <a href="{{ route('logout') }}"
                   onclick="event.preventDefault();
                                             this.closest('form').submit();"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                  out</a>
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">登出</a>
               </form>
             </li>
           </ul>
@@ -62,23 +61,15 @@
         <li>
           <a href="{{ route('listings.index') }}"
             class="block py-2 px-3 text-white  rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-            aria-current="page">Home</a>
+            aria-current="page">首頁</a>
         </li>
         @auth
           <li>
             <a href="{{ route('dashboard') }}"
-              class="block py-2 px-3 @php if(Route::current()->uri=='dashboard'): echo 'text-blue-700';  else: echo "text-gray-900"; endif @endphp  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">listings</a>
+              class="block py-2 px-3 @php if(Route::current()->uri=='dashboard'): echo 'text-blue-700';  else: echo "text-gray-900"; endif @endphp  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">職缺列表</a>
           </li>
         @endauth
 
-        <li>
-          <a href="#"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-        </li>
-        <li>
-          <a href="#"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-        </li>
       </ul>
     </div>
   </div>
