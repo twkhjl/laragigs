@@ -220,7 +220,6 @@ class ListingController extends Controller
     // Manage Listings
     public function manage()
     {
-
-        return view('dashboard', ['listings' => auth()->user()->listings()->get()]);
+        return view('dashboard', ['listings' => auth()->user()->listings()->paginate(5)]);
     }
 }

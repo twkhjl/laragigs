@@ -1,10 +1,6 @@
 <x-app-layout>
-  <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('create') }}
-    </h2>
-  </x-slot>
 
+  <div class="pt-20"></div>
 
   <form class="max-w-md mx-auto" enctype="multipart/form-data" method="POST" action="{{ route('listings.store') }}">
     @csrf
@@ -36,7 +32,6 @@
     @include('components.form.textarea', [
         'textareaName' => 'description',
         'labelName' => 'description',
-
     ])
     @error('description')
       <p class="text-red-500 text-xs mb-5">{{ $message }}</p>

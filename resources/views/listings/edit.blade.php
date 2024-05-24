@@ -1,10 +1,5 @@
 <x-app-layout>
-  <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('create') }}
-    </h2>
-  </x-slot>
-
+  <div class="pt-20"></div>
 
   <form class="max-w-md mx-auto" enctype="multipart/form-data" method="POST"
     action="{{ route('listings.update', [$listing->id]) }}">
