@@ -29,17 +29,17 @@
     @foreach ($listings as $key => $value)
       <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-          {{ $value['title'] }}
+          {{ $value->title }}
         </th>
         <td class="px-6 py-4">
-          {{ $value['company'] }}
+          {{ $value->company }}
         </td>
         <td class="px-6 py-4">
-          {{ $value['email'] }}
+          {{ $value->email }}
         </td>
         <td class="px-6 py-4">
           @include('components.tags-show',[
-            "tags"=>$value['tags']
+            "tags"=>$value->tags
           ])
         </td>
         <td class="px-6 py-4">

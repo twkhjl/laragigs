@@ -22,6 +22,11 @@ Route::get(
 )->name('listings.index');
 
 Route::get(
+    '/listings/lazyload',
+    [ListingController::class, 'lazyload']
+)->name('listings.lazyload');
+
+Route::get(
     '/listings/create',
     [ListingController::class, 'create']
 )->middleware(['auth'])->name('listings.create');
