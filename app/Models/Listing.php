@@ -19,6 +19,7 @@ class Listing extends Model
         'title',
         'email',
         'logo',
+        'tags',
         'company',
         'location',
         'description',

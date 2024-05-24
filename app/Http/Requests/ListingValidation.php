@@ -44,6 +44,7 @@ class ListingValidation extends FormRequest
 			'email' => ['required', 'email'],
 			'description' => 'required',
 			'logo' => 'mimes:jpg,jpeg,png',
+			'tags'=>'sometimes|string',
 		];
 	}
 

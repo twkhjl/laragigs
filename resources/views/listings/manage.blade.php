@@ -38,11 +38,13 @@
           {{ $value['email'] }}
         </td>
         <td class="px-6 py-4">
-          tag
+          @include('components.tags-show',[
+            "tags"=>$value['tags']
+          ])
         </td>
         <td class="px-6 py-4">
           <div class="flex gap-4 align-middle justify-center">
-            <a href="/listings/{{ $value->id }}/edit"
+            <a href="/listings/{{ $value->id }}/edit?page={{$page}}"
               class="block focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"><i
                 class="fa-solid fa-pen"></i></a>
 

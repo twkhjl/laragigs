@@ -20,6 +20,10 @@
   <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <script src="//unpkg.com/alpinejs" defer></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="font-sans antialiased">
@@ -33,8 +37,8 @@
     </main>
   </div>
 
-@include('components.flash-success')
-@include('components.flash-danger')
+  @include('components.flash-success')
+  @include('components.flash-danger')
 
 </body>
 

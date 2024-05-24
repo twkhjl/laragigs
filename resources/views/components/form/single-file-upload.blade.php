@@ -1,12 +1,14 @@
 @php
   $oldValue = $oldValue ?? '';
-  $srcImg = $oldValue ? $oldValue : '';
+  $srcImg = $oldValue ?? '';
+  $accept = $accept ?? '*';
 @endphp
 
 <div class="relative z-0 w-full mb-5 group">
 
-  <label class="block">
+  <label class="block">{{ $labelName }}
     <input name="{{ $inputName }}" type="file" onchange="loadFile(event)"
+    accept="{{ $accept }}"
       class="block w-full text-sm text-gray-500
   file:me-4 file:py-2 file:px-4
   file:rounded-lg file:border-1
