@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ImgurHelper;
 use App\Models\Img;
-use Illuminate\Http\Request;
 use \App\Models\Listing;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ListingValidation;
 
 class ListingController extends Controller
 {
@@ -51,15 +50,11 @@ class ListingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ListingValidation $request)
     {
-        $formFields = $request->validate([
-            'title' => 'required',
-            'company' => ['required', Rule::unique('listings', 'company')],
-            'email' => ['required', 'email'],
-            'description' => 'required',
-            'logo' => 'mimes:jpg,jpeg,png',
-        ]);
+
+        $formFields = $request->validated();
+
         $formFields['user_id'] = auth()->id();
 
         $newListing = Listing::create($formFields);
@@ -83,11 +78,9 @@ class ListingController extends Controller
                     'table_id' => $newListing->id,
                 ]);
             }
-
         }
 
         return redirect('dashboard')->with('success', '新增成功');
-
     }
 
     /**
@@ -141,21 +134,16 @@ class ListingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Listing $listing)
+    public function update(ListingValidation $request, Listing $listing)
     {
+
         // Make sure logged in user is owner
         if ($listing->user_id != auth()->id()) {
             abort(403, 'Unauthorized Action');
         }
 
+        $formFields = $request->validated();
 
-        $formFields = $request->validate([
-            'title' => 'required',
-            'company' => ['required', 'unique:listings,company,' . $listing->id],
-            'email' => ['required', 'email'],
-            'description' => 'required',
-            'logo' => 'mimes:jpg,jpeg,png',
-        ]);
 
         if ($request->hasFile('logo')) {
 

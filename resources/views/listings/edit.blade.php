@@ -12,45 +12,31 @@
         'labelName' => 'title',
         'oldValue' => $listing->title,
     ])
-    @error('title')
-      <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
-    @enderror
+   
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'email',
         'labelName' => 'email',
         'oldValue' => $listing->email,
     ])
-    @error('email')
-      <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
-    @enderror
+   
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'company',
         'labelName' => 'company',
         'oldValue' => $listing->company,
     ])
-    @error('company')
-      <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
-    @enderror
+   
     @include('components.form.textarea', [
         'textareaName' => 'description',
         'labelName' => 'description',
         'oldValue' => $listing->description,
     ])
-    @error('description')
-      <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
-    @enderror
 
     @include('components.form.single-file-upload', [
         'inputName' => 'logo',
         'oldValue' => $listing->logo,
     ])
-    @error('logo')
-      <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
-    @enderror
-
-
 
     <div class="flex items-center justify-center mt-4">
       <button type="submit"

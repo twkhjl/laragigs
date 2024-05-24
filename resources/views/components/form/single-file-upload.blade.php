@@ -1,7 +1,6 @@
 @php
-$oldValue = $oldValue ?? '';
-$srcImg = $oldValue ? $oldValue : '';
-// $srcImg = $oldValue ? asset('storage/' . $oldValue) : '';
+  $oldValue = $oldValue ?? '';
+  $srcImg = $oldValue ? $oldValue : '';
 @endphp
 
 <div class="relative z-0 w-full mb-5 group">
@@ -17,10 +16,11 @@ $srcImg = $oldValue ? $oldValue : '';
   file:disabled:opacity-50 file:disabled:pointer-events-none
 ">
   </label>
+  @error($inputName)
+    <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
+  @enderror
   <div class="shrink-0">
-    <img id='preview_img' class="mt-2 object-cover" 
-    src="{{$srcImg}}"
-    alt="" />
+    <img id='preview_img' class="mt-2 object-cover" src="{{ $srcImg }}" alt="" />
   </div>
   <script>
     const loadFile = function(event) {
