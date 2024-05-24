@@ -5,6 +5,8 @@
     </h2>
   </x-slot>
 
+@include('components.banner')
+
   <section>
     <div class="py-16">
       <div class="mx-auto px-6 max-w-6xl text-gray-500">
