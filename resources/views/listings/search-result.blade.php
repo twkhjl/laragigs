@@ -1,12 +1,25 @@
 <x-app-layout>
- 
 
-  @include('components.banner')
-  
-  
-<div class="pt-10"></div>
 
-  @include('listings.index-search')
+  <div class="pt-10"></div>
+
+  <div class="text-xl text-center pt-20">搜尋關鍵字：<span class="text-red-500">{{ request('search') }}</span></div>
+  <h2 class="text-center pt-6">
+    @if ($listings && count($listings) > 0)
+      共計 {{ count($listings) }} 筆搜尋結果
+    @else
+      查無資料..
+    @endif
+  </h2>
+
+  <div class="pt-10"></div>
+
+  @include('listings.index-search', [
+      'oldValue' => request('search'),
+  ])
+
+
+
 
   <section>
     <div class="py-16">

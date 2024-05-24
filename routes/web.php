@@ -27,6 +27,11 @@ Route::get(
 )->name('listings.lazyload');
 
 Route::get(
+    '/listings/searchResult',
+    [ListingController::class, 'searchResult']
+)->name('listings.searchResult');
+
+Route::get(
     '/listings/create',
     [ListingController::class, 'create']
 )->middleware(['auth'])->name('listings.create');

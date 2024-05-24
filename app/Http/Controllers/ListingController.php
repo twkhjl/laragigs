@@ -19,7 +19,7 @@ class ListingController extends Controller
 	{
 
 		$listings = Listing::getListing([
-			'perPage' => 6
+			'perPage' => 6,
 		]);
 
 		return view('listings.index', [
@@ -34,6 +34,19 @@ class ListingController extends Controller
 		]);
 
 		return view('listings.card-list', ['listings' => $listings])->render();
+	}
+
+	public function searchResult()
+	{
+
+		$listings = Listing::getListing([
+			'perPage' => 6,
+			'search' => request('search') ?? ''
+		]);
+
+		return view('listings.search-result', [
+			"listings" => $listings,
+		]);
 	}
 
 	/**
