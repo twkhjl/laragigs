@@ -15,7 +15,7 @@
 
     @include('components.form.tags-input', [
         'inputName' => 'tags',
-        'labelName' => '職缺分類(以逗號分隔)',
+        'labelName' => '職缺分類(按Enter新增tag)',
         'oldValue' => $listing->tags,
     ])
 
