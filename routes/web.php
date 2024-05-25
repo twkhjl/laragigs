@@ -31,37 +31,31 @@ Route::get(
     [ListingController::class, 'searchResult']
 )->name('listings.searchResult');
 
-Route::get(
-    '/listings/create',
-    [ListingController::class, 'create']
-)->middleware(['auth'])->name('listings.create');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get(
+        '/listings/create',
+        [ListingController::class, 'create']
+    )->name('listings.create');
 
-Route::post(
-    '/listings/store',
-    [ListingController::class, 'store']
-)->middleware(['auth'])->name('listings.store');
+    Route::post(
+        '/listings/store',
+        [ListingController::class, 'store']
+    )->name('listings.store');
 
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth')->name('listings.edit');
-Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth')->name('listings.update');
+    Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->name('listings.edit');
 
-Route::delete(
-    '/listings/{listing}',
-    [ListingController::class, 'destroy']
-)->middleware(['auth'])->name('listings.destroy');
+    Route::put('/listings/{listing}', [ListingController::class, 'update'])->name('listings.update');
+
+    Route::get(
+        '/dashboard',
+        [ListingController::class, 'manage']
+    )->name('dashboard');
+});
 
 Route::get(
     '/listings/{listing}',
     [ListingController::class, 'show']
 )->name('listings.show');
 
-Route::get(
-    '/dashboard',
-    [ListingController::class, 'manage']
-)->middleware(['auth'])->name('dashboard');
-
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
