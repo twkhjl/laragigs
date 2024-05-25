@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\ListingController;
+use \App\Http\Controllers\TestController;
+use \App\Http\Controllers\UserInfoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +17,10 @@ use \App\Http\Controllers\ListingController;
 */
 
 Route::get('/', [ListingController::class, 'index']);
+
+// ttt
+Route::get('/sendSampleEmail', [TestController::class, 'sendSampleEmail']);
+// ttt
 
 Route::get(
     '/listings',
@@ -32,6 +38,11 @@ Route::get(
 )->name('listings.searchResult');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/userInfo/{user}/edit', [UserInfoController::class, 'edit'])->name('userInfo.edit');
+    Route::put('/userInfo/{listing}', [UserInfoController::class, 'update'])->name('userInfo.update');
+
+
     Route::get(
         '/listings/create',
         [ListingController::class, 'create']

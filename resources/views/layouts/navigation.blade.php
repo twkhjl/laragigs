@@ -12,13 +12,23 @@
     @endguest
     @auth
       @if (auth()->user()->hasVerifiedEmail())
+        @php
+          $iconUrl = App\Models\Img::getOneImgUrl([
+              'table_name' => 'users',
+              'table_id' => auth()->id(),
+          ]);
+
+          if (!$iconUrl) {
+              $iconUrl = asset('images/user-icon.png');
+          }
+        @endphp
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button type="button"
             class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom">
             <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo">
+            <img class="w-8 h-8 rounded-full" src="{{ $iconUrl }}" alt="user photo">
           </button>
           <!-- Dropdown menu -->
           <div
@@ -30,8 +40,8 @@
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">儀表板</a>
+                <a href="{{ route('userInfo.edit', Auth::user()->id) }}"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">設定</a>
               </li>
 
               <li>
