@@ -77,22 +77,15 @@ class ListingController extends Controller
 		if ($request->hasFile('logo')) {
 
 			// 上傳新圖片
-			$imgurClientId = env('IMGUR_CLIENT_ID');
-			$uploadResult = ImgurHelper::uploadToImgur($request->file('logo'), $imgurClientId);
-			if (
-				$uploadResult
-				&& $uploadResult['data']
-				&& $uploadResult['data']['link']
-				&& $uploadResult['data']['deletehash']
-			) {
-				Img::create([
-					'img_url' => $uploadResult['data']['link'],
-					'delete_hash' => $uploadResult['data']['deletehash'],
-					'table_name' => 'listings',
-					'column_name' => 'logo',
-					'table_id' => $newListing->id,
-				]);
-			}
+			$uploadResult = ImgurHelper::uploadToImgur($request->file('logo'), env('IMGUR_CLIENT_ID'));
+
+			// 新增資料庫資料
+			Img::createFromUploadResult([
+				'uploadResult' => $uploadResult,
+				'table_name' => 'listings',
+				'table_id' => $newListing->id,
+				'column_name' => 'logo',
+			]);
 		}
 
 		return redirect('dashboard')->with('success', '新增成功');
@@ -165,30 +158,25 @@ class ListingController extends Controller
 			// 刪除舊圖片
 			$imgs = Img::where('table_name', 'listings')->where('table_id', $listing->id)->get();
 			$deleteHashes = $imgs->pluck('delete_hash')->toArray();
-			$imgurClientId = env('IMGUR_CLIENT_ID');
 			foreach ($deleteHashes as $key => $deleteHash) {
-				ImgurHelper::curl_remove_img($deleteHash, $imgurClientId);
+				ImgurHelper::curl_remove_img($deleteHash, env('IMGUR_CLIENT_ID'));
 			}
+
+			// 刪除資料庫舊資料
 			$imgs->each->delete();
 
 
 			// 上傳新圖片
-			$imgurClientId = env('IMGUR_CLIENT_ID');
-			$uploadResult = ImgurHelper::uploadToImgur($request->file('logo'), $imgurClientId);
-			if (
-				$uploadResult
-				&& $uploadResult['data']
-				&& $uploadResult['data']['link']
-				&& $uploadResult['data']['deletehash']
-			) {
-				Img::create([
-					'img_url' => $uploadResult['data']['link'],
-					'delete_hash' => $uploadResult['data']['deletehash'],
-					'table_name' => 'listings',
-					'column_name' => 'logo',
-					'table_id' => $listing->id,
-				]);
-			}
+			$uploadResult = ImgurHelper::uploadToImgur($request->file('logo'), env('IMGUR_CLIENT_ID'));
+
+			// 新增資料庫資料
+			Img::createFromUploadResult([
+				'uploadResult' => $uploadResult,
+				'table_name' => 'listings',
+				'table_id' => $listing->id,
+				'column_name' => 'logo',
+			]);
+			
 		}
 
 		$listing->update($formFields);

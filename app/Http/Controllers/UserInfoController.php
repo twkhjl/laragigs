@@ -66,7 +66,14 @@ class UserInfoController extends Controller
 
 			// 上傳新圖片
 			$uploadResult = ImgurHelper::uploadToImgur($request->file('icon'), env('IMGUR_CLIENT_ID'));
-			Img::createFromUploadResult($uploadResult);
+
+			// 新增資料庫資料
+			Img::createFromUploadResult([
+				'uploadResult' => $uploadResult,
+				'table_name' => 'users',
+				'table_id' => auth()->id(),
+				'column_name' => 'icon',
+			]);
 		}
 
 		$user->update($formFields);
