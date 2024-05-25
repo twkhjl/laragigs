@@ -4,9 +4,9 @@
 # {{ $greeting }}
 @else
 @if ($level === 'error')
-# @lang('Whoops!')
+# @lang('json.Whoops!')
 @else
-# @lang('Hello!')
+# @lang('json.Hello!')
 @endif
 @endif
 
@@ -43,7 +43,7 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Regards'),<br>
+@lang('json.Regards'),<br>
 {{ config('app.name') }}
 @endif
 
@@ -51,8 +51,7 @@
 @isset($actionText)
 @slot('subcopy')
 @lang(
-    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser:',
+    "json.If you're having trouble clicking the :actionText button,<br> copy and paste the URL below into your web browser:<br>",
     [
         'actionText' => $actionText,
     ]

@@ -1,6 +1,7 @@
 @foreach ($listings as $key => $listing)
   @php
     $imgUrl = 'https://fakeimg.pl/400x300/?text=' . 'no image';
+    $imgUrl = asset('images/logo.png');
     if ($listing->logo) {
         $imgUrl = $listing->logo;
     }

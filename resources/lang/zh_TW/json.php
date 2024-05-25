@@ -323,8 +323,7 @@
    "If you did not request a password reset, no further action is required." => "如果您未要求重設密碼，請忽略此郵件。", 
    "If you do not have an account, you may create one by clicking the button below. After creating an account, you may click the invitation acceptance button in this email to accept the team invitation:" => "如果您還沒有帳號，可以點擊下方的按鈕建立一個帳號。建立帳號後，您可以點擊此郵件中的邀請接受按鈕，接受團隊邀請：", 
    "If you need to add specific contact or tax information to your receipts, like your full business name, VAT identification number, or address of record, you may add it here." => "如果您需要在收據中新增特定的聯絡資訊或稅務資訊，例如您的完整公司名稱、增值稅識別號碼 (統一編號) 或登記地址，您可以在此處新增。", 
-   "If you\'re having trouble clicking the :actionText button, copy and paste the URL below
-into your web browser:" => "如果您點擊「:actionText」按鈕時出現問題，請複製下方連結至瀏覽器中貼上：", 
+   "If you're having trouble clicking the :actionText button,<br> copy and paste the URL below into your web browser:<br>" => "如果您點擊「:actionText」按鈕時出現問題，<br>請複製下方連結至瀏覽器中貼上：<br>", 
    "Impersonate" => "模擬登入", 
    "Increase" => "增加", 
    "India" => "印度", 
