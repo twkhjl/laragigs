@@ -67,9 +67,9 @@ class Listing extends Model
         }
 
         if ($perPage) {
-            return $query->orderBy('L.id')->paginate($perPage);
+            return $query->orderBy('L.id','desc')->paginate($perPage);
         } else {
-            return $query->orderBy('L.id')->get();
+            return $query->orderBy('L.id','desc')->get();
         }
     }
 }
