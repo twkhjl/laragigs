@@ -16,7 +16,7 @@ use \App\Http\Controllers\UserInfoController;
 |
 */
 
-Route::get('/', [ListingController::class, 'index']);
+Route::get('/', [ListingController::class, 'index'])->name('index');
 
 // ttt
 Route::get('/sendSampleEmail', [TestController::class, 'sendSampleEmail']);
