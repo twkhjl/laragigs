@@ -91,28 +91,6 @@ class ListingController extends Controller
 		return redirect('dashboard')->with('success', '新增成功');
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show(Listing $listing)
-	{
-		$img = Img::where('table_name', 'listings')
-			->where('table_id', $listing->id)
-			->where('table_name', 'listings')
-			->latest('created_at')
-			->first();
-
-
-		$imgUrl = $img->img_url ?? '';
-		$listing->logo = $imgUrl ?? '';
-
-		return view('listings.show', [
-			"listing" => $listing,
-		]);
-	}
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -176,7 +154,6 @@ class ListingController extends Controller
 				'table_id' => $listing->id,
 				'column_name' => 'logo',
 			]);
-			
 		}
 
 		$listing->update($formFields);

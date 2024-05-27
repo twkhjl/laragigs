@@ -1,8 +1,8 @@
 @foreach ($listings as $key => $listing)
   @php
-    $imgUrl = asset('images/logo.png');
+    $listing->imgUrl = asset('images/logo.png');
     if ($listing->logo) {
-        $imgUrl = $listing->logo;
+        $listing->imgUrl = $listing->logo;
     }
 
     $detailUrl = "/listings/{$listing->id}";
@@ -13,9 +13,9 @@
       class="group mx-2 grid max-w-screen-lg grid-cols-1 space-x-8 overflow-hidden rounded-lg border text-gray-700 shadow transition hover:shadow-lg sm:mx-auto sm:grid-cols-5">
       <a href="{{ $detailUrl }}" class="col-span-2 text-left text-gray-600 hover:text-gray-700">
         <div class="group relative h-full w-full overflow-hidden">
-          <img src="{{ $imgUrl }}" alt=""
+          <img src="{{ $listing->imgUrl }}" alt=""
             class="h-full w-full border-none object-cover text-gray-700 transition group-hover:scale-125" />
-         
+
           <img src=""
             class="absolute inset-1/2 w-10 max-w-full -translate-x-1/2 -translate-y-1/2 transition group-hover:scale-125"
             alt="" />
@@ -47,20 +47,20 @@
             @endif
 
           </div>
-          <a href="/listings/{{ $listing->id }}"
+
+          <button id="openBtn{{ $listing->id }}" data-modal-target="large-modal{{ $listing->id }}"
+            data-modal-toggle="large-modal{{ $listing->id }}"
             class="my-5 rounded-md px-5 py-2 text-center transition hover:scale-105 bg-orange-600 text-white sm:ml-auto">查看更多
-          </a>
+          </button>
+
+          @include('components.modals.modal-listing-detail', [
+              'listing' => $listing,
+          ])
+
         </div>
       </div>
     </div>
 
 
   </div>
-  @php
-    $imgUrl = 'https://fakeimg.pl/400x300/?text=' . 'no image';
-    if ($listing->logo) {
-        $imgUrl = $listing->logo;
-    }
-  @endphp
- 
 @endforeach

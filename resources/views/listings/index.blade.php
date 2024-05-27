@@ -71,9 +71,17 @@
       .then(html => {
         document.querySelector('#card-list-container').innerHTML += html;
         currentPage = nextPage; // Update currentPage
+        initFlowbite();
+
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
       });
   }
+
+
+
+
+
+
 </script>

@@ -17,10 +17,17 @@
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+
+  <script src="
+    https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.js
+    "></script>
+  <link href="
+https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.css
+" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <script src="//unpkg.com/alpinejs" defer></script>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
   <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
