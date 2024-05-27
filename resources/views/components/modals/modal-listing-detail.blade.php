@@ -1,5 +1,3 @@
-
-
 <!-- Large Modal -->
 <div id="large-modal{{ $listing->id }}" tabindex="-1"
   class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -31,7 +29,7 @@
 
             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-md font-medium ">
-                職缺名稱
+                {{ trans('listings.title') }}
               </dt>
               <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
                 {{ $listing->title }}
@@ -40,7 +38,7 @@
 
             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-md font-medium ">
-                關鍵字
+                {{ trans('listings.tags') }}
               </dt>
               <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
                 <div class="flex h-fit space-x-2 text-sm font-medium">
@@ -58,7 +56,16 @@
 
             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-md font-medium ">
-                職缺描述
+                {{ trans('listings.location') }}
+              </dt>
+              <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ $listing->location }}
+              </dd>
+            </div>
+
+            <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-md font-medium ">
+                {{ trans('listings.description') }}
               </dt>
               <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
                 {!! nl2br($listing->description) !!}
@@ -68,7 +75,7 @@
 
             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-md font-medium ">
-                聯絡信箱
+                {{ trans('listings.email') }}
               </dt>
               <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
                 {{ $listing->email }}
