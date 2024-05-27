@@ -1,21 +1,35 @@
 @php
 
   $oldValue = old($inputName) ?? ($oldValue ?? '');
-  $isRequired = $isRequired ?? true;
-  $inputDefaultClass =
-      'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+  $isRequired = $isRequired ?? false;
+  $inputDefaultClass = '
+       border 
+       border-b-1
+       border-b-gray-300 
+       border-t-0
+       border-l-0
+       border-r-0
+       outline-none
+       bg-transparent
+       text-gray-900 
+       text-md 
+       focus:outline-none
+       focus:ring-0 
+       focus:border-b-blue-500 
+       
+       block w-full p-2.5 
+       ';
 
-  $labelDefaultClass =
-      'peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
+  $labelDefaultClass = 'block mb-2 text-md font-medium text-gray-900';
 @endphp
 
 <div class="relative z-0 w-full mb-5 group">
+  <label for="{{ $inputName }}" class="{{ $labelDefaultClass }}">{{ $labelName }}</label>
   <input type="{{ $inputType }}" name="{{ $inputName }}" id="{{ $inputName }}" class="{{ $inputDefaultClass }}"
     placeholder=" " value="{{ $oldValue }}" @if ($isRequired) required @endif />
-  <label for="{{ $inputName }}" class="{{ $labelDefaultClass }}">{{ $labelName }}</label>
 
   @error($inputName)
-    <p class="text-red-500 text-xs mb-5">{{ $message }}</p>
+    <p class="text-red-500 text-md mb-5">{{ $message }}</p>
   @enderror
 
 </div>

@@ -8,34 +8,34 @@
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'title',
-        'labelName' => '職缺名稱',
+        'labelName' => '*'.trans('listings.title'),
     ])
 
     @include('components.form.tags-input', [
         'inputName' => 'tags',
-        'labelName' => '職缺分類(按Enter新增tag)',
+        'labelName' => '*'.trans('listings.tags').trans('listings.tagsInstruction'),
     ])
 
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'email',
-        'labelName' => '聯絡信箱',
+        'labelName' => '*'.trans('listings.email'),
     ])
 
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'company',
-        'labelName' => '公司名稱',
+        'labelName' => '*'.trans('listings.company'),
     ])
 
     @include('components.form.textarea', [
         'textareaName' => 'description',
-        'labelName' => '職缺描述',
+        'labelName' => "*".trans("listings.description"),
     ])
 
     @include('components.form.single-file-upload', [
         'inputName' => 'logo',
-        'labelName' => '示意圖片(檔案格式限制:png,jpg,gif)',
+        'labelName' => '*'.trans('listings.logo').trans('listings.logoInstruction'),
         'accept' => '.png,.jpg,.jpeg,.gif',
     ])
 

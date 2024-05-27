@@ -40,7 +40,7 @@
 
             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-md font-medium ">
-                職缺類別
+                關鍵字
               </dt>
               <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
                 <div class="flex h-fit space-x-2 text-sm font-medium">
@@ -68,7 +68,7 @@
 
             <div class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-md font-medium ">
-                聯絡Email
+                聯絡信箱
               </dt>
               <dd class="mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2">
                 {{ $listing->email }}

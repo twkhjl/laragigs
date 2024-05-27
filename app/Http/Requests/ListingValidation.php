@@ -44,7 +44,7 @@ class ListingValidation extends FormRequest
 			'email' => ['required', 'email'],
 			'description' => 'required',
 			'logo' => 'mimes:jpg,jpeg,png',
-			'tags'=>'sometimes|string',
+			'tags'=>'required|string',
 		];
 	}
 
@@ -52,7 +52,7 @@ class ListingValidation extends FormRequest
 	{
 		return [
 			'company' => '公司名稱',
-			'email' => '',
+			'email' => '聯絡信箱',
 			'title' => '職稱',
 			'tags' => '關鍵字',
 			'website' => '公司網站',
