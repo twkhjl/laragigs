@@ -33,17 +33,25 @@ class ListingValidation extends FormRequest
 		if ($this->listing && $this->listing->id) {
 			$id = $this->listing->id;
 		}
-		$companyUniqueRule = 'unique:listings,company';
-		if ($id) {
-			$companyUniqueRule .= ",{$id}";
-		}
+		
 
 		return [
 			'title' => 'required',
-			'tags'=>'required|string',
+			'tags' => 'required|string',
 			'email' => ['required', 'email'],
 			'location' => ['nullable', 'string'],
-			'company' => ['required', $companyUniqueRule],
+			'company' => ['required', function ($attribute, $value, $fail) use ($id) {
+				$query = \App\Models\Listing::where('company', $value)
+					->where('title', $this->title);
+
+				if ($id) {
+					$query->where('id', '!=', $id);
+				}
+
+				if ($query->exists()) {
+					$fail(trans('listings.The combination of company and title already exists.'));
+				}
+			}],
 			'description' => 'required',
 			'logo' => 'mimes:jpg,jpeg,png',
 		];

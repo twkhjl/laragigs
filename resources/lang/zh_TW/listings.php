@@ -10,4 +10,6 @@ return [
   "description" => "職缺描述",
   "logo" => "示意圖片",
   "logoInstruction" => "(檔案格式限制：png、jpg、gif)",
+
+  "The combination of company and title already exists."=>"該公司已存在相同的職缺",
 ];
