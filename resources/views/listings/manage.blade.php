@@ -171,6 +171,7 @@
                   }
 
                   function triggerDelBtn{{ $value->id }}() {
+                    initLoadingOverlay();
                     document.querySelector("#form{{ $value->id }}").submit();
                   }
                 </script>
@@ -290,8 +291,7 @@
     // 將要刪除的項目id存在input欄位,用於表單提交
     inputItemIDs.value = checkedIdArr.join(',');
     
-    document.querySelector('#loading-overlay').classList.remove('hidden');
-    document.querySelector('#loading-overlay').classList.add('flex');
+    initLoadingOverlay();
     
     document.querySelector("#formDestroyAll").submit();
   }
