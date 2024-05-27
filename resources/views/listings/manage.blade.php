@@ -6,7 +6,7 @@
 
     {{-- 批次操作下拉選單 --}}
 
-    <div>
+    <div id="dropdownActionContainer" class="hidden">
       <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
         class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         type="button">
@@ -77,7 +77,7 @@
           </div>
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          @sortablelink('location',trans('listings.title'))
+          @sortablelink('location', trans('listings.title'))
         </th>
         <th scope="col" class="px-6 py-3 text-center">
           {{ trans('listings.company') }}
@@ -92,7 +92,7 @@
           {{ trans('listings.location') }}
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          @sortablelink('updated_at','更新時間')
+          @sortablelink('updated_at', '更新時間')
         </th>
 
         <th scope="col" class="px-6 py-3 text-center">
@@ -135,7 +135,7 @@
                 'tags' => $value->tags,
             ])
           </td>
-          
+
           <td class="px-6 py-4 text-center">
             {{ $value->location }}
           </td>
@@ -221,6 +221,14 @@
       if (!event.target.checked) {
         checkedIdArr = checkedIdArr.filter(e => e != event.target.value);
       }
+
+      if (checkedIdArr.length > 0) {
+        showDropdownAction();
+      }
+      if (checkedIdArr.length <= 0) {
+        hideDropdownAction();
+      }
+      
     });
   });
 
@@ -230,6 +238,7 @@
     // 取消勾選
     if (!event.target.checked) {
       clearAll();
+      hideDropdownAction();
       return;
     }
 
@@ -246,6 +255,10 @@
 
     checkedIdArr = Array.from(new Set(checkedIdArr));
 
+    if (checkedIdArr.length > 0) {
+      showDropdownAction();
+    }
+
   });
 
   // 清除已選取
@@ -257,7 +270,18 @@
     checkedIdArr = [];
 
     document.querySelector("body").click();
+    hideDropdownAction();
     return;
+  }
+
+  // 隱藏刪除選取項目的選項
+  function hideDropdownAction() {
+    document.querySelector('#dropdownActionContainer').classList.add('hidden');
+  }
+
+  // 顯示刪除選取項目的選項
+  function showDropdownAction() {
+    document.querySelector('#dropdownActionContainer').classList.remove('hidden');
   }
 
   // 刪除選取項目
