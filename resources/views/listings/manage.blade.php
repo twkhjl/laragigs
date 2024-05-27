@@ -77,7 +77,7 @@
           </div>
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          {{ trans('listings.title') }}
+          @sortablelink('location',trans('listings.title'))
         </th>
         <th scope="col" class="px-6 py-3 text-center">
           {{ trans('listings.company') }}
@@ -92,7 +92,7 @@
           {{ trans('listings.location') }}
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          更新時間
+          @sortablelink('updated_at','更新時間')
         </th>
 
         <th scope="col" class="px-6 py-3 text-center">

@@ -222,6 +222,8 @@ class ListingController extends Controller
 			'user_id' => auth()->user()->id,
 			'perPage' => 5,
 			'search' => request('search') ?? '',
+			'sort' =>request()->input('sort') ?? '',
+			'direction' =>request()->input('direction') ?? '',
 		]);
 
 		return view('dashboard', [

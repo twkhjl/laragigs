@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+use Kyslik\ColumnSortable\Sortable;
 
 class Listing extends Model
 {
-    use HasFactory;
+    use HasFactory, Sortable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +28,14 @@ class Listing extends Model
         'description',
     ];
 
+    public $sortable = [
+        'id',
+        'title',
+        'name',
+        'location',
+        'updated_at'
+    ];
+
     // Relationship To User
     public function user()
     {
@@ -36,18 +45,23 @@ class Listing extends Model
     public static function getListing($params = [
         'user_id' => '',
         'perPage' => '',
-        'search' => ''
+        'search' => '',
+        'sort' => '',
+        'direction' => '',
     ])
     {
         $user_id = $params['user_id'] ?? '';
         $perPage = $params['perPage'] ?? '';
         $search = $params['search'] ?? '';
 
+        $sort = $params['sort'] ?? '';
+        $direction = $params['direction'] ?? '';
+
         $query = DB::table('listings as L')
-            ->select('L.id', 'L.user_id', 'L.title', 'L.tags', 'L.company', 'L.email', 'L.description', 'imgs.img_url AS logo','L.location','L.updated_at')
+            ->select('L.id', 'L.user_id', 'L.title', 'L.tags', 'L.company', 'L.email', 'L.description', 'imgs.img_url AS logo', 'L.location', 'L.updated_at')
             ->leftJoin('imgs', function ($join) {
                 $join->on('L.id', '=', 'imgs.table_id')
-                     ->where('imgs.table_name', '=', 'listings');
+                    ->where('imgs.table_name', '=', 'listings');
             });
 
         if ($user_id) {
@@ -60,15 +74,18 @@ class Listing extends Model
                     ->orWhere('L.description', 'like', '%' . $search . '%')
                     ->orWhere('L.tags', 'like', '%' . $search . '%')
                     ->orWhere('L.email', 'like', '%' . $search . '%')
-                    ->orWhere('L.company', 'like', '%' . $search . '%')
-                    ;
+                    ->orWhere('L.company', 'like', '%' . $search . '%');
             });
         }
 
+        if ($sort && $direction) {
+            $query->orderBy($sort, $direction);
+        }
+
         if ($perPage) {
-            return $query->orderBy('L.id','desc')->paginate($perPage);
+            return $query->orderBy('L.id', 'desc')->paginate($perPage);
         } else {
-            return $query->orderBy('L.id','desc')->get();
+            return $query->orderBy('L.id', 'desc')->get();
         }
     }
 }
