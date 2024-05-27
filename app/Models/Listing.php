@@ -44,7 +44,7 @@ class Listing extends Model
         $search = $params['search'] ?? '';
 
         $query = DB::table('listings as L')
-            ->select('L.id', 'L.user_id', 'L.title', 'L.tags', 'L.company', 'L.email', 'L.description', 'imgs.img_url AS logo')
+            ->select('L.id', 'L.user_id', 'L.title', 'L.tags', 'L.company', 'L.email', 'L.description', 'imgs.img_url AS logo','L.location','L.updated_at')
             ->leftJoin('imgs', function ($join) {
                 $join->on('L.id', '=', 'imgs.table_id')
                      ->where('imgs.table_name', '=', 'listings');

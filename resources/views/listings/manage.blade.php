@@ -55,8 +55,7 @@
 
     {{-- 新增 --}}
 
-      <button type="button" 
-      onclick="location.href='/listings/create'"
+    <button type="button" onclick="location.href='/listings/create'"
       class="ml-2 mr-auto text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">新增</button>
 
     {{-- <button type="button" onclick="location.href='/listings/create'"
@@ -78,17 +77,24 @@
           </div>
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          職缺名稱
+          {{ trans('listings.title') }}
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          公司名稱
+          {{ trans('listings.company') }}
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          示意圖片
+          {{ trans('listings.logo') }}
         </th>
         <th scope="col" class="px-6 py-3 text-center">
-          關鍵字
+          {{ trans('listings.tags') }}
         </th>
+        <th scope="col" class="px-6 py-3 text-center">
+          {{ trans('listings.location') }}
+        </th>
+        <th scope="col" class="px-6 py-3 text-center">
+          更新時間
+        </th>
+
         <th scope="col" class="px-6 py-3 text-center">
           操作
         </th>
@@ -123,11 +129,21 @@
             ])
 
           </td>
+
           <td class="px-6 py-4 text-center">
             @include('components.tags-show', [
                 'tags' => $value->tags,
             ])
           </td>
+          
+          <td class="px-6 py-4 text-center">
+            {{ $value->location }}
+          </td>
+
+          <td class="px-6 py-4 text-center">
+            {{ \Carbon\Carbon::parse($value->updated_at)->format('Y-m-d H:i') }}
+          </td>
+
           <td class="px-6 py-4 text-center">
             <div class="flex gap-4 align-middle justify-center">
               <a href="/listings/{{ $value->id }}/edit?page={{ $page }}"

@@ -40,24 +40,25 @@ class ListingValidation extends FormRequest
 
 		return [
 			'title' => 'required',
-			'company' => ['required', $companyUniqueRule],
+			'tags'=>'required|string',
 			'email' => ['required', 'email'],
+			'location' => ['nullable', 'string'],
+			'company' => ['required', $companyUniqueRule],
 			'description' => 'required',
 			'logo' => 'mimes:jpg,jpeg,png',
-			'tags'=>'required|string',
 		];
 	}
 
 	public function attributes()
 	{
 		return [
-			'company' => '公司名稱',
-			'email' => '聯絡信箱',
-			'title' => '職稱',
-			'tags' => '關鍵字',
-			'website' => '公司網站',
-			'location' => '工作地點',
-			'description' => '工作描述',
+			'title' => trans("listings.title"),
+			'tags' => trans("listings.tags"),
+			'location' => trans("listings.location"),
+			'email' => trans("listings.email"),
+			'company' => trans("listings.company"),
+			'description' => trans("listings.description"),
+			'website' => trans("listings.website"),
 		];
 	}
 }

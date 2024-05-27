@@ -10,6 +10,7 @@
 <div class="relative z-0 w-full mb-5 group">
   <label for="{{ $inputName }}" class="block mb-2 text-sm font-medium focus:text-blue-900 text-gray-900">{{ $labelName }}</label>
   <input type="text" name="{{ $inputName }}" id="{{ $inputName }}" 
+  value="{{ $oldValue }}"
   class="
   border-b-20 border-t-0 border-l-0 border-r-0
   

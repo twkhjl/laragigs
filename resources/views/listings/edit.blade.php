@@ -9,40 +9,47 @@
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'title',
-        'labelName' => '*'.trans('listings.title'),
+        'labelName' => '*' . trans('listings.title'),
         'oldValue' => $listing->title,
     ])
 
     @include('components.form.tags-input', [
         'inputName' => 'tags',
-        'labelName' => '*'.trans('listings.tags').trans('listings.tagsInstruction'),
+        'labelName' => '*' . trans('listings.tags') . trans('listings.tagsInstruction'),
         'oldValue' => $listing->tags,
     ])
 
     @include('components.form.input', [
         'inputType' => 'text',
+        'inputName' => 'location',
+        'labelName' => '' . trans('listings.location'),
+        'oldValue' => $listing->location,
+    ])
+
+    @include('components.form.input', [
+        'inputType' => 'text',
         'inputName' => 'email',
-        'labelName' => '*'.trans('listings.email'),
+        'labelName' => '*' . trans('listings.email'),
         'oldValue' => $listing->email,
     ])
 
     @include('components.form.input', [
         'inputType' => 'text',
         'inputName' => 'company',
-        'labelName' => '*'.trans('listings.company'),
+        'labelName' => '*' . trans('listings.company'),
         'oldValue' => $listing->company,
     ])
 
     @include('components.form.textarea', [
         'textareaName' => 'description',
-        'labelName' => "*".trans("listings.description"),
+        'labelName' => '*' . trans('listings.description'),
         'oldValue' => $listing->description,
     ])
 
     @include('components.form.single-file-upload', [
         'inputName' => 'logo',
         'oldValue' => $listing->logo,
-        'labelName' => '*'.trans('listings.logo').trans('listings.logoInstruction'),
+        'labelName' => '' . trans('listings.logo') . trans('listings.logoInstruction'),
         'accept' => '.png,.jpg,.jpeg,.gif',
     ])
 

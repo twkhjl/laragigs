@@ -4,6 +4,7 @@ return [
   "title" => "職缺名稱",
   "tags" => "職缺描述",
   "tagsInstruction" => "(按Enter新增)",
+  "location" => "工作地點",
   "email" => "聯絡信箱",
   "company" => "公司名稱",
   "description" => "職缺描述",
