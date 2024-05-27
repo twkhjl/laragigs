@@ -49,6 +49,9 @@ https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.css
 
   @include('components.footer')
 
+  @include('components.app.loading-overlay')
+
+
 </body>
 
 </html>

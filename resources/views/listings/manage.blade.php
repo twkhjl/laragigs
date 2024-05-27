@@ -289,6 +289,10 @@
 
     // 將要刪除的項目id存在input欄位,用於表單提交
     inputItemIDs.value = checkedIdArr.join(',');
+    
+    document.querySelector('#loading-overlay').classList.remove('hidden');
+    document.querySelector('#loading-overlay').classList.add('flex');
+    
     document.querySelector("#formDestroyAll").submit();
   }
 </script>
