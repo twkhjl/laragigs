@@ -1,129 +1,249 @@
 <div class="pt-10"></div>
 
-<div class="flex">
+<div class="relative overflow-x-auto sm:rounded-lg">
+  <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4">
 
-  <button type="button" onclick="location.href='/listings/create'"
-    class="ml-0 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300  rounded-md text-sm px-2 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
 
-  <form action="/dashboard">
-    <div class="relative text-gray-600 mb-2">
-      <input type="search" name="search" placeholder="搜尋"
-        @if (request('search')) value="{{ request('search') }}" @endif
-        class="bg-white h-10 px-5 pr-10 rounded-md text-sm focus:outline-none">
-      <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
-        <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-          version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966"
-          style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px" height="512px">
-          <path
-            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+    {{-- 批次操作下拉選單 --}}
+
+    <div>
+      <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
+        class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        type="button">
+        <span class="sr-only">Action button</span>
+        批次操作
+        <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 4 4 4-4" />
         </svg>
       </button>
-    </div>
-  </form>
+      <!-- 批次操作 -->
+      <div id="dropdownAction"
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
 
-</div>
+          <li>
+            <a onclick="clearAll()"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              清除已選取項目</a>
+          </li>
 
+          <li>
+            <form id="formDestroyAll" method="POST" action="{{ route('listings.destroyAll') }}">
+              @csrf
+              <a data-modal-target="popup-modal" data-modal-toggle="popup-modal"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">刪除選取項目</a>
 
-
-<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-    <tr>
-      <th scope="col" class="px-6 py-3 text-center">
-        職缺名稱
-      </th>
-      <th scope="col" class="px-6 py-3 text-center">
-        公司名稱
-      </th>
-      <th scope="col" class="px-6 py-3 text-center">
-        縮圖
-      </th>
-      <th scope="col" class="px-6 py-3 text-center">
-        分類標籤
-      </th>
-      <th scope="col" class="px-6 py-3 text-center">
-        動作
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-
-    @foreach ($listings as $key => $value)
-      <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-        <td class="px-6 py-4 text-center">
-          {{ $value->title }}
-        </td>
-        <td class="px-6 py-4 text-center">
-          {{ $value->company }}
-        </td>
-        <td class="px-6 py-4 flex justify-center">
-
-          <button data-modal-target="select-modal{{ $value->id }}"
-            data-modal-toggle="select-modal{{ $value->id }}" type="button">
-            <img src="{{ $value->logo }}" class="w-8" alt="" srcset="">
-          </button>
-
-          @include('components.modals.modal-preview-img', [
-              'modalID' => "select-modal{$value->id}",
-              'imgUrl' => $value->logo,
-          ])
-
-        </td>
-        <td class="px-6 py-4 text-center">
-          @include('components.tags-show', [
-              'tags' => $value->tags,
-          ])
-        </td>
-        <td class="px-6 py-4 text-center">
-          <div class="flex gap-4 align-middle justify-center">
-            <a href="/listings/{{ $value->id }}/edit?page={{ $page }}"
-              class="block focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"><i
-                class="fa-solid fa-pen"></i></a>
-
-            <form method="POST" id="form{{ $value->id }}" action="/listings/{{ $value->id }}">
-              {{ csrf_field() }}
-              {{ method_field('DELETE') }}
-
-              @php
-                $modalID = "deleteModal{$value->id}";
-                $confirmTriggerFn = "triggerDelBtn{$value->id}";
-              @endphp
-
-              <button data-modal-target="{{ $modalID }}" data-modal-toggle="{{ $modalID }}"
-                onclick="onDelBtnClick(event)"
-                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"><i
-                  class="fa-solid fa-trash"></i></button>
-
-              <button class="hidden" type="submit" id="delBtn{{ $value->id }}">實際刪除鈕</button>
-              <script>
-                function onDelBtnClick(e) {
-                  return e.preventDefault();
-                }
-
-                function triggerDelBtn{{ $value->id }}() {
-                  document.querySelector("#form{{ $value->id }}").submit();
-                }
-              </script>
+              <div class="hidden">
+                <input type="text" id="inputItemIDs" name="inputItemIDs">
+              </div>
             </form>
+          </li>
+        </ul>
+      </div>
 
-            @include('components.modals.modal-confirm-del', [
-                'modalID' => $modalID,
-                'confirmTriggerFn' => $confirmTriggerFn,
-                'confirmDelMessage' => '是否確定刪除?',
-                'btnConfirmText' => '確定',
-                'btnCancelText' => '取消',
+      @include('components.modals.modal-confirm-del', [
+          'modalID' => 'popup-modal',
+          'confirmTriggerFn' => 'triggerDestroyAllBtn',
+          'confirmDelMessage' => '刪除選取資料?',
+          'btnConfirmText' => '確定',
+          'btnCancelText' => '取消',
+      ])
+
+    </div>
+
+    {{-- 新增 --}}
+    <button type="button" onclick="location.href='/listings/create'"
+      class="ml-2 mr-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
+
+    {{-- 搜尋 --}}
+    @include('listings.manage-search')
+
+
+  </div>
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="p-4">
+          <div class="flex items-center">
+            <input id="checkbox-select-all" type="checkbox"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-select-all" class="sr-only">checkbox</label>
+          </div>
+        </th>
+        <th scope="col" class="px-6 py-3">
+          職缺名稱
+        </th>
+        <th scope="col" class="px-6 py-3">
+          公司名稱
+        </th>
+        <th scope="col" class="px-6 py-3">
+          縮圖
+        </th>
+        <th scope="col" class="px-6 py-3">
+          分類標籤
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($listings as $key => $value)
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="w-4 p-4">
+            <div class="flex items-center">
+              <input id="checkbox-table-{{ $value->id }}" type="checkbox" value="{{ $value->id }}"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="checkbox-table-{{ $value->id }}" class="sr-only">checkbox</label>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-center">
+            {{ $value->title }}
+          </td>
+          <td class="px-6 py-4 text-center">
+            {{ $value->company }}
+          </td>
+          <td class="px-6 py-4 flex justify-center">
+
+            <button data-modal-target="select-modal{{ $value->id }}"
+              data-modal-toggle="select-modal{{ $value->id }}" type="button">
+              <img src="{{ $value->logo }}" class="w-8" alt="" srcset="">
+            </button>
+
+            @include('components.modals.modal-preview-img', [
+                'modalID' => "select-modal{$value->id}",
+                'imgUrl' => $value->logo,
             ])
 
-          </div>
-        </td>
-      </tr>
-    @endforeach
+          </td>
+          <td class="px-6 py-4 text-center">
+            @include('components.tags-show', [
+                'tags' => $value->tags,
+            ])
+          </td>
+          <td class="px-6 py-4 text-center">
+            <div class="flex gap-4 align-middle justify-center">
+              <a href="/listings/{{ $value->id }}/edit?page={{ $page }}"
+                class="block focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"><i
+                  class="fa-solid fa-pen"></i></a>
 
-  </tbody>
-</table>
-@if (count($listings) <= 0)
-  <div class="text-center mt-6">查無資料</div>
-@endif
+              <form method="POST" id="form{{ $value->id }}" action="/listings/{{ $value->id }}">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
 
-<div class="mt-4">
-  {{ $listings->links('vendor.pagination.tailwind') }}
+                @php
+                  $modalID = "deleteModal{$value->id}";
+                  $confirmTriggerFn = "triggerDelBtn{$value->id}";
+                @endphp
+
+                <button data-modal-target="{{ $modalID }}" data-modal-toggle="{{ $modalID }}"
+                  onclick="onDelBtnClick(event)"
+                  class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2.5 py-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"><i
+                    class="fa-solid fa-trash"></i></button>
+
+                <button class="hidden" type="submit" id="delBtn{{ $value->id }}">實際刪除鈕</button>
+                <script>
+                  function onDelBtnClick(e) {
+                    return e.preventDefault();
+                  }
+
+                  function triggerDelBtn{{ $value->id }}() {
+                    document.querySelector("#form{{ $value->id }}").submit();
+                  }
+                </script>
+              </form>
+
+              @include('components.modals.modal-confirm-del', [
+                  'modalID' => $modalID,
+                  'confirmTriggerFn' => $confirmTriggerFn,
+                  'confirmDelMessage' => '是否確定刪除?',
+                  'btnConfirmText' => '確定',
+                  'btnCancelText' => '取消',
+              ])
+
+            </div>
+          </td>
+        </tr>
+      @endforeach
+
+
+    </tbody>
+  </table>
+  @if (count($listings) <= 0)
+    <div class="text-center mt-6">查無資料</div>
+  @endif
+  <div class="mt-4">
+    {{ $listings->links('vendor.pagination.tailwind') }}
+  </div>
 </div>
+
+
+{{-- 批次操作下拉選單 --}}
+<script>
+  const checkboxSelectAll = document.querySelector('#checkbox-select-all');
+  const inputItemIDs = document.querySelector('#inputItemIDs');
+  const checkboxes = document.querySelectorAll("input[id*='checkbox-table']");
+
+
+  // 儲存要批次操作的項目id
+  let checkedIdArr = [];
+
+  // 將checkbox加上事件
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('click', function(event) {
+
+      if (event.target.checked) {
+        checkedIdArr.push(event.target.value);
+      }
+      if (!event.target.checked) {
+        checkedIdArr = checkedIdArr.filter(e => e != event.target.value);
+      }
+    });
+  });
+
+  // 全選checkbox觸發事件
+  checkboxSelectAll.addEventListener('click', function(event) {
+
+    // 取消勾選
+    if (!event.target.checked) {
+      clearAll();
+      return;
+    }
+
+    // 若勾選則全選其餘項目
+    checkboxes.forEach(function(checkbox) {
+      checkbox.checked = true;
+    });
+
+    // 將有勾選的checkbox的值存入變數中
+    const checkedCheckboxes = document.querySelectorAll("input[id*='checkbox-table']:checked");
+    checkedCheckboxes.forEach(function(checkbox) {
+      checkedIdArr.push(checkbox.value);
+    });
+
+    checkedIdArr = Array.from(new Set(checkedIdArr));
+
+  });
+
+  // 清除已選取
+  function clearAll() {
+    checkboxSelectAll.checked = false;
+    checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+    });
+    checkedIdArr = [];
+
+    document.querySelector("body").click();
+    return;
+  }
+
+  // 刪除選取項目
+  function triggerDestroyAllBtn() {
+
+    // 將要刪除的項目id存在input欄位,用於表單提交
+    inputItemIDs.value = checkedIdArr.join(',');
+    document.querySelector("#formDestroyAll").submit();
+  }
+</script>

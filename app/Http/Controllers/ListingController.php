@@ -187,6 +187,34 @@ class ListingController extends Controller
 		return back()->with('success', '刪除成功');
 	}
 
+	// 批次刪除
+	public function destroyAll()
+	{
+
+		if (!request()->input('inputItemIDs')) return null;
+
+		$idArr = explode(',', request()->input('inputItemIDs'));
+
+		if (
+			!is_array($idArr)
+			|| (is_array($idArr) && count($idArr) <= 0)
+		) return null;
+
+		// 刪除舊圖片
+		$imgs = Img::where('table_name', 'listings')->whereIn('table_id', $idArr)->get();
+		$deleteHashes = $imgs->pluck('delete_hash')->toArray();
+		$imgurClientId = env('IMGUR_CLIENT_ID');
+		foreach ($deleteHashes as $key => $deleteHash) {
+			ImgurHelper::curl_remove_img($deleteHash, $imgurClientId);
+		}
+		$imgs->each->delete();
+
+		// 刪除資料庫
+		Listing::whereIn('id', $idArr)->delete();
+
+		return back()->with('success', '刪除成功');
+	}
+
 	// Manage Listings
 	public function manage()
 	{

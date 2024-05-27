@@ -45,10 +45,9 @@ class Listing extends Model
 
         $query = DB::table('listings as L')
             ->select('L.id', 'L.user_id', 'L.title', 'L.tags', 'L.company', 'L.email', 'L.description', 'imgs.img_url AS logo')
-            ->leftJoin('imgs', 'L.id', '=', 'imgs.table_id')
-            ->where(function ($q) {
-                $q->where('imgs.table_name', 'listings')
-                    ->orWhereNull('imgs.table_name');
+            ->leftJoin('imgs', function ($join) {
+                $join->on('L.id', '=', 'imgs.table_id')
+                     ->where('imgs.table_name', '=', 'listings');
             });
 
         if ($user_id) {

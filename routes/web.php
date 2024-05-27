@@ -57,6 +57,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::put('/listings/{listing}', [ListingController::class, 'update'])->name('listings.update');
 
+    Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('listings.destroy');
+    
+    Route::post('/listings/destroyAll', [ListingController::class, 'destroyAll'])->name('listings.destroyAll');
+
     Route::get(
         '/dashboard',
         [ListingController::class, 'manage']
