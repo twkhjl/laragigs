@@ -54,8 +54,13 @@
     </div>
 
     {{-- 新增 --}}
-    <button type="button" onclick="location.href='/listings/create'"
-      class="ml-2 mr-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button>
+
+      <button type="button" 
+      onclick="location.href='/listings/create'"
+      class="ml-2 mr-auto text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">新增</button>
+
+    {{-- <button type="button" onclick="location.href='/listings/create'"
+      class="ml-2 mr-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">新增</button> --}}
 
     {{-- 搜尋 --}}
     @include('listings.manage-search')
@@ -72,20 +77,20 @@
             <label for="checkbox-select-all" class="sr-only">checkbox</label>
           </div>
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-6 py-3 text-center">
           職缺名稱
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-6 py-3 text-center">
           公司名稱
         </th>
-        <th scope="col" class="px-6 py-3">
-          縮圖
+        <th scope="col" class="px-6 py-3 text-center">
+          示意圖片
         </th>
-        <th scope="col" class="px-6 py-3">
-          分類標籤
+        <th scope="col" class="px-6 py-3 text-center">
+          關鍵字
         </th>
-        <th scope="col" class="px-6 py-3">
-          Action
+        <th scope="col" class="px-6 py-3 text-center">
+          操作
         </th>
       </tr>
     </thead>
